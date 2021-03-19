@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chessboard</title>
+        <style>
+            .row {
+                display: table-row;
+            }
+
+            .col {
+                border: 1px solid black;
+                height: 50px;
+                width: 50px;
+                display: table-cell;
+            }
+
+            #chessboard {
+                display: table;
+                width: fit-content;
+                margin: auto;
+            }
+
+            .even {
+                background-color: brown;
+            }
+
+            .odd {
+                background-color: orange;
+            }
+
+            .cell {
+                text-align: center;
+                font-size: 36px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="chessboard"></div>
+    </body>
+
+    <script>
+        const createChessBoard = () => {
+            let parent = document.getElementById("chessboard")
+            let charArray = ["A", "B", "C", "D", "E", "F", "G", "H"]
+
+            for (let i = 0; i < 8; i++) {
+                let row = document.createElement("div")
+                row.classList.add("row")
+                row.classList.add("row" + (8 - i).toString())
+                for (let j = 0; j < 8; j++) {
+                    let col = document.createElement("div")
+                    col.classList.add("col")
+                    col.classList.add("col" + charArray[j])
+                    col.classList.add("cell")
+                    col.draggable = true
+                    row.appendChild(col)
+
+                    col.id = charArray[j] + (8 - i).toString()
+
+                    if ((i % 2 === 0 && j % 2 === 0) || (i % 2 !== 0 && j % 2 !== 0)) 
+                        col.classList.add("even")
+                    else
+                        col.classList.add("odd")
+                }
+                parent.appendChild(row)
+            }
+        }
+
+        const populateChessBoard = () => {
+            let row8 = document.getElementsByClassName("row8")[0].childNodes
+            let row7 = document.getElementsByClassName("row7")[0].childNodes
+            let row2 = document.getElementsByClassName("row2")[0].childNodes
+            let row1 = document.getElementsByClassName("row1")[0].childNodes
+
+            console.log(row1)
+
+            for (let i = 0; i < 8; i++) {
+                let blackBehind = "♜♞♝♛♚♝♞♜"
+                let whlteBehind = "♖♘♗♕♔♗♘♖"
+                row8[i].textContent = blackBehind[i]
+                row7[i].textContent = "♟"
+                row2[i].textContent = "♙"
+                row1[i].textContent = whlteBehind[i]
+            }
+        }
+
+        createChessBoard()
+        populateChessBoard()
+    </script>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LED Panel</title>
+        <style>
+            .row {
+                display: table-row;
+            }
+
+            .col {
+                border: 5px solid darkred;
+                height: 15px;
+                width: 15px;
+                display: table-cell;
+                background-color: red;
+            }
+
+            #ledbody {
+                display: table;
+                width: fit-content;
+                margin: auto;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="ledbody"></div>
+    </body>
+
+    <script>
+        let currentColor = -1
+        let colorArray = ["red", "green", "blue"]
+
+        const createLEDPanel = () => {
+            let parent = document.getElementById("ledbody")
+
+            for (let i = 0; i < 20; i++) {
+                let row = document.createElement("div")
+                row.classList.add("row")
+                for (let j = 0; j < 20; j++) {
+                    let col = document.createElement("div")
+                    col.classList.add("col")
+                    row.appendChild(col)
+                }
+                parent.appendChild(row)
+            }
+        }
+
+        const updatePanel = () => {
+            currentColor < 2 ? currentColor++ : currentColor = 0
+
+            for (const col of document.getElementsByClassName("row")) {
+                for (const pixel of col.getElementsByClassName("col")) {
+                    updatePixel(pixel)
+                    //setTimeout(updatePixel, 20, pixel) // <- not working :c
+                }
+            }
+            setTimeout(updatePanel, 500)
+        }
+
+        const updatePixel = (target) => {
+            target.style.backgroundColor = colorArray[currentColor]
+            target.style.borderColor = "dark" + colorArray[currentColor].toString()
+        }
+
+        createLEDPanel()
+        updatePanel()
+
+    </script>
+</html>
