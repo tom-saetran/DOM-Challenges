@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Minesweeper</title>
+        <style>
+            table {
+                border: 1px solid black;
+                padding: 3px;
+                background-color: darkgray;
+            }
+
+            td {
+                width: 40px;
+                height: 40px;
+                border: 1px solid black;
+                padding: 3px;
+                background-color: lightgray;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <h1>MinesweeperJS</h1>
+            <hr/>
+        </header>
+        
+        <div id="userinput">
+            <select name="Difficulty" id="difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium">Medlium</option>
+                <option value="hard">Hard</option>
+            </select>
+
+            <input type="range" name="Board Size" id="boardsize" value="10" min="3" max="20" oninput="updateBoardSize(value)">
+            <span id="selectionnumber">10</span>
+            <input type="button" value="Start Game" onclick="createBoard()">
+            <input type="button" value="Restart Game" onclick="resetGame()">
+        </div>
+
+        <hr/>
+
+        <div id="minesweeper"></div>
+
+        <hr/>
+
+        <footer>
+            Feet feet feet feet..
+        </footer>
+    </body>
+
+    <script>
+        let boardExist = false
+        const updateBoardSize = (value) => {
+            document.getElementById("selectionnumber").innerText = value
+        }
+
+        const createBoard = () => {
+            if (boardExist)
+                return
+
+            let size = document.getElementById("boardsize").value
+            let parent = document.getElementById("minesweeper")
+            let table = document.createElement("table")
+
+            for (let x = 0; x < size; x++) {
+                let row = document.createElement("tr")
+                for (let y = 0; y < size; y++) {
+                    let col = document.createElement("td")
+                    row.appendChild(col)
+                }
+                table.appendChild(row)
+            }
+            parent.appendChild(table)
+            boardExist = true
+        }
+
+        const resetGame = () => {
+            if (document.querySelector("#minesweeper table") !== null)
+                document.querySelector("#minesweeper table").remove()
+                boardExist = false
+        }
+
+
+        /*
+        |++| Get size of board from user
+        |++| get difficulty
+        create board grid, store in [x][y] array
+        populate board with mines according to difficulty
+        check how many mines each square can see in a 3x3 grid, itself being the middle
+        write to the current cell how many mines that is around it
+        create board overlay to hide numbers and mines
+        add onclick to overlay tiles that calls checkForMine on mouse up
+        if clicked on mine, user lost
+        if clicked on number, reveal number
+        if clicked on blank (0 mines around it), open all connected blanks + 1 in all directions to reveal numbers
+        track number of mines vs number of squares hidden, if equal only mines are left, user win
+
+        */
+    </script>
+</html>
