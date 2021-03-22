@@ -49,7 +49,7 @@
         <hr/>
 
         <footer>
-            Feet feet feet feet..
+            Created from scratch by Tom-Lennart Sætran
         </footer>
     </body>
 
@@ -65,9 +65,9 @@
             if (boardExist)
                 return
 
-            let size = document.getElementById("boardsize").value
-            let parent = document.getElementById("minesweeper")
-            let table = document.createElement("table")
+            const size = document.getElementById("boardsize").value
+            const parent = document.getElementById("minesweeper")
+            const table = document.createElement("table")
 
             let rowArray = []
             mineArray = []
@@ -76,6 +76,9 @@
                 let row = document.createElement("tr")
                 for (let y = 0; y < size; y++) {
                     let col = document.createElement("td")
+                    col.setAttribute("data-clicked", false)
+                    col.setAttribute("data-contains-mine", false)
+                    col.setAttribute("data-adjacent-mines", 0)
                     row.appendChild(col)
                     rowArray.push(col)
                 }
@@ -85,6 +88,18 @@
             }
             parent.appendChild(table)
             boardExist = true
+            populateMines()
+        }
+
+        const populateMines = () => {
+            const size = document.getElementById("boardsize").value
+            const difficultyArray = [0.20, 0.40, 0.60]
+            const numMines = Math.ceil((size * size) * (difficultyArray[document.getElementById("difficulty").selectedIndex]))
+
+            
+
+            console.log("size: " + size * size)
+            console.log("mines: " + numMines)
         }
 
         const resetGame = () => {
